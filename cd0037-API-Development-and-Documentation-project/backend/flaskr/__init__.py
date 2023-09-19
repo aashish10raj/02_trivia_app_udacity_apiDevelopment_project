@@ -25,6 +25,8 @@ def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://aashishraj:123@localhost:5432/trivia'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    if test_config is not None:
+        app.config.from_mapping(test_config)
     db.init_app(app)
     CORS(app, supports_credentials=True)
 

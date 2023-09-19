@@ -173,7 +173,7 @@ def create_app(test_config=None):
 
 # generating random question for the quiz
     @app.route('/quizzes', methods=['POST'])
-    def play_quiz():
+    def quiz():
         try:
             body = request.get_json()
 

@@ -8,4 +8,5 @@
 /dataSources.local.xml
 env
 .idea
-/frontend/node_modules
+/frontend/
+/node_modules

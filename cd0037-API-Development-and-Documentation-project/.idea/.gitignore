@@ -6,7 +6,6 @@
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
-env
-.idea
-/frontend/
-/node_modules
+env/
+.idea/
+frontend/node_modules/

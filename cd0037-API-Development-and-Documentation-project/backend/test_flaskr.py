@@ -12,32 +12,14 @@ class TriviaTestCase(unittest.TestCase):
 
     def setUp(self):
         """Define test variables and initialize app."""
-        # self.app = create_app()
-        # self.client = self.app.test_client
-        # # self.database_name = "trivia_test"
-        # # self.database_path = "postgres://{}/{}".format(
-        # #     'localhost:5432', self.database_name)
-        # # setup_db(self.app, self.database_path)
-        # self.app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://aashishraj:123@localhost:5432/trivia_test'
-        # self.app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-        # db.self.app=self.app
-        # db.init_app(self.app)
-        # db.create_all()
-        # db.init_app(self.app)
 
-        # with self.app.app_context():
-        #     db.create_all()
         self.app = create_app(
             {
                 "SQLALCHEMY_DATABASE_URI": "postgresql://aashishraj:123@localhost:5432/trivia_test"
             }
         )
         self.client = self.app.test_client
-        # self.app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://aashishraj:123@localhost:5432/trivia_test'
-        # self.app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-        # db.init_app(self.app)
-        # with self.app.app_context():
-        #     db.create_all()
+
 
 
         # sample question for use in tests

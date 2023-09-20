@@ -191,16 +191,11 @@ def create_app(test_config=None):
 
         category = body.get('quiz_category')
 
-        if ((category is None) or (previous is None)):
+        if category is None or previous is None:
             abort(422)
 
-        if (category['id'] == 0):
-            questions = Question.query.all()
-        else:
-            questions = Question.query.filter_by(category=category['id']).all()
-
+        questions = Question.query.filter_by(category=category['id']).all() if category['id'] != 0 else Question.query.all()
         total = len(questions)
-
         question = random.choice(questions)
 
         while question.id in previous:

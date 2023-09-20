@@ -8,11 +8,13 @@ from flaskr import create_app
 from models import *
 
 
-db_host = os.environ.get('DB_HOST', 'localhost')
-db_port = os.environ.get('DB_PORT', '5432')
-db_user = os.environ.get('DB_USER', 'aashishraj')
-db_password = os.environ.get('DB_PASSWORD', '123')
-database_name='trivia_test'
+load_dotenv()
+db_host = os.environ.get("DB_HOST")
+db_port = os.environ.get("DB_PORT")
+db_user = os.environ.get("DB_USER")
+db_password = os.environ.get("DB_PASSWORD")
+database_name= os.environ.get("DB_TEST_NAME")
+
 db_uri = f"postgresql://{db_user}:{db_password}@{db_host}:{db_port}/{database_name}"
 class TriviaTestCase(unittest.TestCase):
     """This class represents the trivia test case"""

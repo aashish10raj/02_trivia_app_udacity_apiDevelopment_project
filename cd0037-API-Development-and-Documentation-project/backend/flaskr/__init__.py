@@ -184,30 +184,38 @@ def create_app(test_config=None):
 # generating random question for the quiz
     @app.route('/quizzes', methods=['POST'])
     def quiz():
-        try:
-            body = request.get_json()
 
-            if 'quiz_category' not in body or 'previous_questions' not in body:
-                abort(422)
+        body = request.get_json()
 
-            category = body['quiz_category']
-            previous_questions = body['previous_questions']
+        previous = body.get('previous_questions')
 
-            if category['type'] == 'click':
-                available_questions = Question.query.filter(
-                    ~Question.id.in_(previous_questions)).all()
-            else:
-                available_questions = Question.query.filter_by(
-                    category=category['id']).filter(~Question.id.in_(previous_questions)).all()
+        category = body.get('quiz_category')
 
-            new_question = random.choice(available_questions).format() if available_questions else None
-
-            return jsonify({
-                'success': True,
-                'question': new_question
-            })
-        except:
+        if ((category is None) or (previous is None)):
             abort(422)
+
+        if (category['id'] == 0):
+            questions = Question.query.all()
+        else:
+            questions = Question.query.filter_by(category=category['id']).all()
+
+        total = len(questions)
+
+        question = random.choice(questions)
+
+        while question.id in previous:
+            question = random.choice(questions)
+
+            if len(previous) == total:
+                return jsonify({
+                    'success': True
+                })
+
+                # return the question
+        return jsonify({
+                    'success': True,
+                    'question': question.format()
+                })
     """
     @TODO:
     Create an endpoint to handle GET requests for questions,

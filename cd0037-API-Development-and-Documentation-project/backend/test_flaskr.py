@@ -6,7 +6,12 @@ from flask_sqlalchemy import SQLAlchemy
 from flaskr import create_app
 from models import *
 
-
+db_host = os.environ.get('DB_HOST', 'localhost')
+db_port = os.environ.get('DB_PORT', '5432')
+db_user = os.environ.get('DB_USER', 'aashishraj')
+db_password = os.environ.get('DB_PASSWORD', '123')
+database_name='trivia_test'
+db_uri = f"postgresql://{db_user}:{db_password}@{db_host}:{db_port}/{database_name}"
 class TriviaTestCase(unittest.TestCase):
     """This class represents the trivia test case"""
 
@@ -15,7 +20,7 @@ class TriviaTestCase(unittest.TestCase):
 
         self.app = create_app(
             {
-                "SQLALCHEMY_DATABASE_URI": "postgresql://aashishraj:123@localhost:5432/trivia_test"
+                "SQLALCHEMY_DATABASE_URI": db_uri
             }
         )
         self.client = self.app.test_client
@@ -83,7 +88,7 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data["success"], False)
 
     def test_deleting_nonexistent_question(self):
-        result = self.client().delete('/questions/a')
+        result = self.client().delete('/questions/1')
         data = json.loads(result.data)
 
         self.assertEqual(result.status_code, 422)
@@ -158,18 +163,18 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data["message"], "resource not found")
 
     def test_play_quiz(self):
-        new_quiz_game = {'previous_questions': [],
+        new_quiz_round = {'previous_questions': [],
                           'quiz_category': {'type': 'Sports', 'id': 6}}
 
-        response = self.client().post('/quizzes', json=new_quiz_game)
+        response = self.client().post('/quizzes', json=new_quiz_round)
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(data['success'], True)
 
     def test_404_play_quiz(self):
-        new_quiz_game = {'previous_questions': []}
-        response = self.client().post('/quizzes', json=new_quiz_game)
+        new_quiz_round = {'previous_questions': []}
+        response = self.client().post('/quizzes', json=new_quiz_round)
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 422)

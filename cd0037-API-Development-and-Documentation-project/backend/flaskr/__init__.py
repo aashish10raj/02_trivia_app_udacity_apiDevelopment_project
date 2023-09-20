@@ -9,6 +9,13 @@ from backend.models import  *
 
 QUESTIONS_PER_PAGE = 10
 
+db_host = os.environ.get('DB_HOST', 'localhost')
+db_port = os.environ.get('DB_PORT', '5432')
+db_user = os.environ.get('DB_USER', 'aashishraj')
+db_password = os.environ.get('DB_PASSWORD', '123')
+database_name='trivia'
+
+db_uri = f"postgresql://{db_user}:{db_password}@{db_host}:{db_port}/{database_name}"
 def paginate_questions(request, selection):
     page = request.args.get("page", 1, type=int)
     start = (page - 1) * QUESTIONS_PER_PAGE
@@ -22,7 +29,7 @@ def paginate_questions(request, selection):
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://aashishraj:123@localhost:5432/trivia'
+    app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     if test_config is not None:
         app.config.from_mapping(test_config)
@@ -83,7 +90,7 @@ def create_app(test_config=None):
         question = Question.query.get(question_id)
 
         if not question:
-            abort(404)
+            abort(422)
 
         question.delete()
 

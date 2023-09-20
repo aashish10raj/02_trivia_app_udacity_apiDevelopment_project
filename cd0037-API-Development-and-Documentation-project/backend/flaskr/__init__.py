@@ -6,16 +6,19 @@ import collections
 collections.Iterable = collections.abc.Iterable
 import random
 from backend.models import  *
+from dotenv import load_dotenv
 
 QUESTIONS_PER_PAGE = 10
 
-db_host = os.environ.get('DB_HOST', 'localhost')
-db_port = os.environ.get('DB_PORT', '5432')
-db_user = os.environ.get('DB_USER', 'aashishraj')
-db_password = os.environ.get('DB_PASSWORD', '123')
-database_name='trivia'
+load_dotenv()
+db_host = os.environ.get("DB_HOST")
+db_port = os.environ.get("DB_PORT")
+db_user = os.environ.get("DB_USER")
+db_password = os.environ.get("DB_PASSWORD")
+database_name= os.environ.get("DB_NAME")
 
 db_uri = f"postgresql://{db_user}:{db_password}@{db_host}:{db_port}/{database_name}"
+
 def paginate_questions(request, selection):
     page = request.args.get("page", 1, type=int)
     start = (page - 1) * QUESTIONS_PER_PAGE

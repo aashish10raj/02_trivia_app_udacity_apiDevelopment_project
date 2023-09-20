@@ -2,9 +2,11 @@ import os
 import unittest
 import json
 from flask_sqlalchemy import SQLAlchemy
+from dotenv import load_dotenv
 
 from flaskr import create_app
 from models import *
+
 
 db_host = os.environ.get('DB_HOST', 'localhost')
 db_port = os.environ.get('DB_PORT', '5432')
